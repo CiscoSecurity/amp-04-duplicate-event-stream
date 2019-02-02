@@ -1,6 +1,6 @@
 [![Gitter chat](https://img.shields.io/badge/gitter-join%20chat-brightgreen.svg)](https://gitter.im/CiscoSecurity/AMP-for-Endpoints "Gitter chat")
 
-### AMP for Endpoints Duplicate Event Stream
+### AMP for Endpoints Duplicate Event Stream:
 
 Script fetches the list of existing streams and prompts the users to choose which one to duplicate. The chosen stream will be duplicated with the same event types and group GUIDs. The credentials for the new stream are printed to the console and saved to disk.
 
