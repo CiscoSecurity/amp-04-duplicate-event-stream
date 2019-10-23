@@ -26,7 +26,10 @@ def creat_new_stream(name, events_ids, group_guids):
                'Accept-Encoding': 'gzip, deflate'}
 
     # Build the payload
-    payload = {"name":name, "event_type":events_ids, "group_guid":group_guids}
+    if not events_ids:
+        payload = {"name":name, "group_guid":group_guids}
+    else:
+        payload = {"name":name, "event_type":events_ids, "group_guid":group_guids}
 
     # POST to API to create new event stream
     post_req = amp_session.post(url, headers=headers, data=json.dumps(payload))
@@ -98,10 +101,17 @@ to_duplicate = ask_for_stream_id(streams)
 
 for stream in stream_data:
     if stream['id'] == int(to_duplicate):
-        event_types = stream.get('event_types')
+        event_types = stream.get('event_types', [])
         group_guids = stream.get('group_guids', [])
 
-print('The chosen stream has {} event types and {} groups'.format(len(event_types), len(group_guids)))
+if not event_types and not group_guids:
+    print('The chosen stream has all event types and all groups')
+elif not event_types and group_guids:
+    print('The chosen stream has all event types and {} groups'.format(len(group_guids)))
+elif event_types and not group_guids:
+    print('The chosen stream has {} event types and all groups'.format(len(event_types)))
+else:
+    print('The chosen stream has {} event types and {} groups'.format(len(event_types), len(group_guids)))
 
 name = input('Enter a name for the event stream you would like to create: ')
 
